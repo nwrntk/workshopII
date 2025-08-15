@@ -9,7 +9,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     env:
-      FIREBASE_PROJECT_ID: workshopii-a089d # ✅ Set once, reuse everywhere
+      FIREBASE_PROJECT_ID: "${{ secrets.PROJECT_ID }}" # ✅ Set once, reuse everywhere
 
     steps:
       - name: Checkout source code
@@ -21,4 +21,4 @@ jobs:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
           firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}"
           channelId: live
-          projectId: workshopii-a089d
+          projectId: "${{ secrets.PROJECT_ID }}"
