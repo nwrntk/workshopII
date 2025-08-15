@@ -9,8 +9,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     env:
-      FIREBASE_PROJECT_ID: "${{ secrets.PROJECT_ID }}" # ✅ Set once, reuse everywhere
-
+      FIREBASE_PROJECT_ID: "${{ secrets.PROJECT_ID }}"
     steps:
       - name: Checkout source code
         uses: actions/checkout@v4
@@ -22,3 +21,19 @@ jobs:
           firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}"
           channelId: live
           projectId: "${{ secrets.PROJECT_ID }}"
+
+      - name: Send LINE Message on Success or Failure
+        run: |
+          STATUS=" Deploy Successful"
+          curl -X POST https://api.line.me/v2/bot/message/push \
+          -H 'Content-Type: application/json' \
+          -H 'Authorization: Bearer ${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }}' \
+          -d "{
+            \"to\": \"${{ secrets.LINE_USER_ID }}\",
+            \"messages\":[
+              {
+                \"type\":\"text\",
+                \"text\":\"$STATUS\n Visit: https://workshopii-a089d.web.app\" 
+              }
+            ]
+          }"
