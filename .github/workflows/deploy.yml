@@ -9,7 +9,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     env:
-      FIREBASE_PROJECT_ID: workshopii-da816 # ✅ Set once, reuse everywhere
+      FIREBASE_PROJECT_ID: ${{ env.FIREBASE_PROJECT_ID }} # ✅ Set once, reuse everywhere
 
     steps:
       - name: Checkout source code
